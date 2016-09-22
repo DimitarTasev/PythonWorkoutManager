@@ -1,0 +1,2 @@
+This module will contain a progress bar (like Mantid's that you can just pass progress(0.2) to and it will handle
+showing the progress to the appropriate std out

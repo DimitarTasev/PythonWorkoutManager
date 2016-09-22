@@ -19,19 +19,24 @@ class Loader(object):
 
         :return String containing the whole file contents
         """
-        return self.__readfile(self.__filename)
+        try:
+            return self.__readfile(self.__filename)
+        except IOError, e:
+            raise IOError(e)
 
-    @staticmethod
     def readfile(self, filename):
         """
         Statically read a file and return it's contents
 
         :return String containing the whole file contents
         """
-        return self.__readfile(filename)
 
-    @staticmethod
-    def __readfile(filename):
+        try:
+            return self.__readfile(filename)
+        except IOError, e:
+            raise IOError(e)
+
+    def __readfile(self, filename):
         """
         Returns the loaded file in a string so that it can be processed,
         this shouldn't be an issue unless the file is extremely long,
@@ -43,4 +48,4 @@ class Loader(object):
             f = open(filename)
             return f.read()
         except IOError, e:
-            print "Failed opening file, error: ", str(e)
+            raise IOError(e)
