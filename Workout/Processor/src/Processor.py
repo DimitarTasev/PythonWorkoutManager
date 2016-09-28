@@ -46,6 +46,7 @@ class Processor(object):
             raise Exception("File is empty")
 
         self.__contents = self.__contents.splitlines()
+
         return self.__createWorkout(self.__contents)
 
     def __createWorkout(self, fileContents):
@@ -56,7 +57,6 @@ class Processor(object):
         workoutExercises = self.__processExercises(fileContents[1:])
 
         workout.addAllExercises(workoutExercises)
-
         return workout
 
     def __createWorkoutAndProcessTitleAndDate(self, title):
@@ -106,12 +106,6 @@ class Processor(object):
             newExercise.setWeights(weights)
             newExercise.setReps(reps)
 
-            print "Name:", newExercise.getName()
-            print "Weights:", newExercise.getWeightsForSet(1)
-            print "Reps:", newExercise.getRepsForSet(1)
-            print "SuperSet:", newExercise.isSuperSet()
-            print "Remaining Exercises", exercises
-
             exerciseContainer.append(newExercise)
 
         return exerciseContainer
@@ -137,7 +131,6 @@ class Processor(object):
     def __processExerciseSetsString(self, exercises):
         # split for supersets, do nothing if not superset
         exercises = [x.split("&") for x in exercises]
-        print exercises
 
         weights = []
         reps = []

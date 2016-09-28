@@ -8,6 +8,14 @@ class Workout(object):
         self.__name = name
         self.__exercises = []
 
+    def __str__(self):
+        string = "Workout name:" + str(self.__name) + " Date:" + str(self.__date) + " Exercises:"
+
+        for exercise in map(str, self.__exercises):
+            string += exercise
+
+        return string
+
     # Name Functions
     def getName(self):
         """

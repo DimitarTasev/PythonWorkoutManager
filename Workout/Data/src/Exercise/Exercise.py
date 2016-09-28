@@ -16,6 +16,9 @@ class Exercise(object):
         if "&" in self.__name:
             self.__superset = True
 
+    def __str__(self):
+        return "Name: " + str(self.__name) + " Sets: " + str(self.__sets) + "; "
+
     def getName(self):
         """
         :return: String: Returns the exercise name as a string
