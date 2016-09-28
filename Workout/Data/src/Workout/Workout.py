@@ -1,18 +1,21 @@
 # Class containing workout structure
 class Workout(object):
+    __name = "NotSet"
     __exercises = []
-    __name = ""
+    __date = "NotSet"
 
     def __init__(self, name):
         self.__name = name
         self.__exercises = []
 
+    # Name Functions
     def getName(self):
         """
         :return: The workout name
         """
         return self.__name
 
+    # Exercise Functions
     def addExercise(self, exercise):
         """
         Appends an exercise to the exercise list
@@ -20,8 +23,12 @@ class Workout(object):
         """
         self.__exercises.append(exercise)
 
+    def addAllExercises(self, exercises):
+        for exercise in exercises:
+            self.addExercise(exercise)
+
     def getExercise(self, name):
-        ex = self.__findexercise(name)
+        ex = self.__findExercise(name)
 
         if ex is None:
             print "Exercise not found"
@@ -41,21 +48,12 @@ class Workout(object):
         """
         return self.__exercises
 
-    def count(self):
-        return len(self.__exercises)
-
-    def isEmpty(self):
-        return len(self.__exercises) == 0
-
-    def clear(self):
-        self.__exercises = []
-
     def removeExercise(self, name):
         """
         Goes through all exercises and finds the one that has the same name, then removes it from the list
         :param name: Exercise to be removed
         """
-        ex = self.__findexercise(name)
+        ex = self.__findExercise(name)
 
         # if None then exercise wasn't found
         if ex is None:
@@ -63,7 +61,15 @@ class Workout(object):
         else:
             self.removeExerciseAt(ex)
 
-    def __findexercise(self, name):
+    def removeExerciseAt(self, pos):
+        """
+        Checks if the input is in bounds and then removes the list at index pos
+        :param pos: The index to be removed
+        """
+        if self.__inbounds(pos):
+            del self.__exercises[pos]
+
+    def __findExercise(self, name):
         """
         Returns the index of the exercise, or None if not found
         :param name: exercise name to be found
@@ -75,13 +81,21 @@ class Workout(object):
                 return i
         return None
 
-    def removeExerciseAt(self, pos):
-        """
-        Checks if the input is in bounds and then removes the list at index pos
-        :param pos: The index to be removed
-        """
-        if self.__inbounds(pos):
-            del self.__exercises[pos]
+    # Date functions
+    def getDate(self):
+        return self.__date
+
+    def setDate(self, date):
+        self.__date = date
+
+    def count(self):
+        return len(self.__exercises)
+
+    def isEmpty(self):
+        return len(self.__exercises) == 0
+
+    def clear(self):
+        self.__exercises = []
 
     def __inbounds(self, pos):
         return 0 <= pos < len(self.__exercises)
