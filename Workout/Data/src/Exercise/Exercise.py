@@ -1,23 +1,69 @@
 class Exercise(object):
-    __container = None
+    __name = ""
+    __sets = 0
+    __weights = []
+    __reps = []
+    __hands = -1
+    __weightMultiplier = 1
+    __superset = False
 
-    def __init__(self, name=None, container=None):
-        if container is None:
-            container = {'name': "", 'sets': 0, 'weight': [], 'reps': []}
-
+    def __init__(self, name=None):
         if name is None:
-            self.__container['name'] = "Default"
+            self.__name = "NotSet"
+        else:
+            self.__name = name
 
-        self.__container = container
+        if "&" in self.__name:
+            self.__superset = True
 
     def getName(self):
         """
         :return: String: Returns the exercise name as a string
 
         """
-        return self.__container['name']
+        return self.__name
 
-    def getSets(self, num):
+    def setSets(self, sets, initialiseContainers=True):
+        self.__sets = int(sets)
+        if initialiseContainers:
+            self.initialiseWeights()
+            self.initialiseReps()
+
+    def initialiseReps(self):
+        if len(self.__reps) < self.__sets:
+            for i in range(self.__sets):
+                self.__reps.append(0)
+
+    def initialiseWeights(self):
+        if len(self.__weights) < self.__sets:
+            for i in xrange(self.__sets):
+                self.__weights.append(0)
+
+    def setWeights(self, weights):
+        self.__weights = weights
+
+    def setWeightForSet(self, setNum, weight):
+        self.__weights[setNum] = weight
+
+    def getWeights(self):
+        return self.__weights
+
+    def getWeightsForSet(self, set):
+        return self.__weights[set]
+
+    def setReps(self, reps):
+        self.__reps = reps
+
+    def setRepsForSet(self, setNum, reps):
+        self.__reps[setNum] = reps
+
+    def getReps(self):
+        return self.__reps
+
+    def getRepsForSet(self, set):
+        return self.__reps[set]
+
+    def getInformationForSet(self, num):
         """
         Returns the information for the parameter set as a Dictionary with:
             - 'set' - the set number
@@ -27,22 +73,37 @@ class Exercise(object):
         :raise IndexError: if the requested set is not in range
         :return: Returns a dictionary with 'set', 'weight' and 'reps'
         """
-        if num > len(self.__container['sets']):
+        if num > len(self.__sets):
             raise IndexError
 
-        return {'set': num, 'weight': self.__container['weight'][num], 'reps': self.__container['reps'][num]}
+        return {'set': num, 'weight': self.__weights[num], 'reps': self.__reps[num]}
 
     def getExerciseInformation(self):
         """
         Returns the container object of the exercise
         :return: the container dictionary object of the exercise
         """
-        return self.__container
+        return {"name": self.__name, "sets": self.__sets, "weight": self.__weights, "reps": self.__reps}
+
+    def setHands(self, hands):
+        self.__hands = hands
+
+    def getHands(self):
+        return self.__hands
+
+    def setWeightMultiplier(self, weightMultiplier):
+        self.__weightMultiplier = weightMultiplier
+
+    def getWeightMultiplier(self):
+        return self.__weightMultiplier
 
     def isComplete(self):
         """
         Checks if the Exercise is complete, i.e. if the information for each set is present
         :return: True if the exercise is complete, False otherwise
         """
-        return self.__container['sets'] == len(self.__container['weight']) \
-               and self.__container['sets'] == len(self.__container['reps'])
+        return self.__sets == len(self.__weights) \
+               and self.__sets == len(self.__reps)
+
+    def isSuperSet(self):
+        return self.__superset
