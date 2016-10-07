@@ -7,24 +7,24 @@ class Processor(object):
     """
     Process the loaded file string into a Workout
     """
-    __fr = None
-    __contents = None
+    __fileReader = None
+    __fileContents = None
     __lastWorkout = None
 
     def __init__(self, filename=None):
         if filename is None:
             raise Exception("Must provide filename")
 
-        self.__fr = Loader(filename)
+        self.__fileReader = Loader(filename)
 
     def readFile(self, force=False):
         """
         READS the file into the program, if NO file has been loaded yet
         :return: A string containing all of the data from the file
         """
-        if self.__contents is None or force is True:  # load the file if it hasnt been loaded yet
+        if self.__fileContents is None or force is True:  # load the file if it hasnt been loaded yet
             try:
-                self.__contents = self.__fr.read()
+                self.__fileContents = self.__fileReader.read()
             except IOError, e:
                 raise IOError(e)
 
@@ -32,7 +32,7 @@ class Processor(object):
         """
         Removes the information from the contents string
         """
-        self.__contents = ""
+        self.__fileContents = ""
 
     def process(self):
         """
@@ -42,12 +42,14 @@ class Processor(object):
 
         self.readFile()
 
-        if len(self.__contents) < 1:
+        if len(self.__fileContents) < 1:
             raise Exception("File is empty")
 
-        self.__contents = self.__contents.splitlines()
+        self.__fileContents = self.__fileContents.splitlines()
 
-        return self.__createWorkout(self.__contents)
+        self.__lastWorkout = self.__createWorkout(self.__fileContents)
+
+        return self.__lastWorkout
 
     def __createWorkout(self, fileContents):
         titleAndDate = fileContents[0]
@@ -86,7 +88,7 @@ class Processor(object):
         exerciseContainer = []
 
         while len(exercises) > 0:
-            name, sets, hands, weightMultiplier = self.__extractNameSetsHandMultiplier(exercises[0])
+            name, sets, hands, weightMultiplier = self.__extractNameSetsHandMultiplier(exercises[0], exercises[1:])
             sets = int(sets)
             # remove name from list
             del exercises[0]
@@ -110,26 +112,51 @@ class Processor(object):
 
         return exerciseContainer
 
-    def __extractNameSetsHandMultiplier(self, param):
-        nameAndSets = param.split(";")
+    def __extractNameSetsHandMultiplier(self, title, exercises):
+        nameAndSets = title.split(";")
         name = nameAndSets[0]
-        sets = nameAndSets[1]
 
+        # if set info is available -> the ;5/1/1 then use that, otherwise count manually
+        sets = nameAndSets[1] if len(nameAndSets) > 1 else self.__countAndCreateSetsString(exercises)
         setsAndHand = sets.split("/")
-
         # re-assign to hold correct value for sets
         sets = setsAndHand[0]
+
+        # TODO could potentially merge the functionality of this and __countAndCreateSetsString()
+        if len(setsAndHand) < 2:  # use default for hands
+            setsAndHand.append("2")
         hand = setsAndHand[1]
 
         if len(setsAndHand) < 3:  # use default multiplier for weight
             setsAndHand.append("*1")
-
         weightMultiplier = setsAndHand[2]
 
         return name, sets, hand, weightMultiplier
 
+    def __countAndCreateSetsString(self, exercises):
+        lineCounter = 0
+        # increment if line doesnt start with letter
+        for line in exercises:
+            if len(exercises) > 0 and not line[0].isalpha() or line[0] == '_':
+                # char is not a letter, therefore it's a set
+                lineCounter += 1
+            else:  # if line starts with letter,
+                break       
+
+        # return after exiting the for loop counter    
+        return "{0}/2/*1".format(str(lineCounter))  # use default values for hands/weight multiplier
+            
+
     def __processExerciseSetsString(self, exercises):
-        # split for supersets, do nothing if not superset
+        """
+        Receives the exercise string, at this point would be
+        [30*5&15*5] and splits it further sets, so it would
+        become [[30*5][15*5]], signifying 1 set with a superset
+
+        @param exercises::List of string to be processed and split
+        @return The weights and reps from the string passed in the parameter
+        """
+        # split for supersets, does nothing if not superset
         exercises = [x.split("&") for x in exercises]
 
         weights = []
@@ -147,8 +174,19 @@ class Processor(object):
 
         return weights, reps
 
+    # Method related global variables, used for caching the previous entries
+    __lastWeights, __lastReps = [], []
+
     def __processSet(self, set):
+        """
+        Processes a single set (i.e. from input 30*5&15*5, method here should be used to process
+        30*5 first and then 15*5 in a consecutive call)
+        """
         weights, reps = [], []
+
+        # if the set is -, it means repeat, e.g. use the cached variables
+        if "-" in set:
+            return self.__lastWeights, self.__lastReps
 
         if "," in set:
             # handle dropset/s
@@ -164,12 +202,34 @@ class Processor(object):
             weights.append(w)
             reps.append(rep)
 
+        # store copy of the processed information, if next line is -
+        self.__lastWeights = weights
+        self.__lastReps = reps
+
         return weights, reps
 
-    def __processWeightsAndReps(self, drop):
-        w = drop.split("x")
+    def __processWeightsAndReps(self, setInfo):
+        """
+        Processes the input in a form of 30*5 or 30x5 (different syntax for the same thing)
+        @return weight, reps as individual members, must be received as 
+        a, b = __processWeightsAndReps
+        """
+        delimiterChar = '*' if '*' in setInfo else 'x'
+
+        w = setInfo.split(delimiterChar)
         return w[0], w[1]
 
 
-r = Processor("../../TestData/ShoulderWorkout.txt")
-print r.process()
+r = Processor("../../TestData/LegWorkout.txt")
+w = r.process()
+print "Workout name", w.getName()
+# print "First exercise", w.getExerciseAt(0)
+allE = w.getAllExercises()
+
+# for e in allE:
+sets = allE[2].getSets()
+
+for xx in range(sets):
+    print allE[xx].getName()
+    print allE[xx].getWeightsForSet(2)
+    print allE[xx].getRepsForSet(2)
