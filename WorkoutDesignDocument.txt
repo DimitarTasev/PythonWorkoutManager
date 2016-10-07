@@ -1,0 +1,23 @@
+Design Document
+<> required, () optional
+
+<set name>(& <super set name>...)(;<set count>/(hands)/(weight multiplier)) -> Overhead Press;5/1/1
+    DONE -> Overhead Press;5/1/1
+    DONE -> Overhead Press;5/1
+    DONE -> Overhead Press;5
+    -> Overhead Press
+
+<(_ or kgs)><(* or x)><reps>(, <kgs <(* or x)><reps>...)(& <kgs><(* or x)><reps>...) 
+    -> _*10 10 reps with body weight
+    DONE -> 30*5 normal set
+    DONE -> 30*5,15*5 dropset
+    DONE -> 30*5&15*5 superset
+    DONE -> 30*5,15*5&15*5,7.5*5 super drop set
+
+or 
+
+    DONE <-> to copy same kgs/reps as above -> -
+    -> 30*- same reps
+    -> -*30 same kgs
+    
+
