@@ -17,7 +17,8 @@ class Exercise(object):
             self.__superset = True
 
     def __str__(self):
-        return "Name: " + str(self.__name) + " Sets: " + str(self.__sets) + "; "
+        return "\nName: " + str(self.__name) + " Sets: " + str(self.__sets) + "\n" + "Weights: " + str(
+            self.__weights) + "\n" + "Reps: " + str(self.__reps)
 
     def getName(self):
         """
@@ -26,30 +27,36 @@ class Exercise(object):
         """
         return self.__name
 
+    def getSets(self):
+        """
+        @return the number of sets in the exercise
+        """
+        return self.__sets
+
     def setSets(self, sets, initialiseContainers=True):
         self.__sets = int(sets)
         if initialiseContainers:
-            self.initialiseWeights()
-            self.initialiseReps()
+            self.__initialiseWeights(self.__sets)
+            self.__initialiseReps(self.__sets)
 
-    def initialiseReps(self):
-        if len(self.__reps) < self.__sets:
-            for i in range(self.__sets):
+    def __initialiseReps(self, setCount):
+        if len(self.__reps) < setCount:
+            for i in range(setCount):
                 self.__reps.append(0)
 
-    def initialiseWeights(self):
-        if len(self.__weights) < self.__sets:
-            for i in xrange(self.__sets):
+    def __initialiseWeights(self, setCount):
+        if len(self.__weights) < setCount:
+            for i in xrange(setCount):
                 self.__weights.append(0)
 
     def setWeights(self, weights):
         self.__weights = weights
 
-    def setWeightForSet(self, setNum, weight):
-        self.__weights[setNum] = weight
-
     def getWeights(self):
         return self.__weights
+
+    def setWeightForSet(self, setNum, weight):
+        self.__weights[setNum] = weight
 
     def getWeightsForSet(self, set):
         return self.__weights[set]
@@ -57,11 +64,11 @@ class Exercise(object):
     def setReps(self, reps):
         self.__reps = reps
 
-    def setRepsForSet(self, setNum, reps):
-        self.__reps[setNum] = reps
-
     def getReps(self):
         return self.__reps
+
+    def setRepsForSet(self, setNum, reps):
+        self.__reps[setNum] = reps
 
     def getRepsForSet(self, set):
         return self.__reps[set]

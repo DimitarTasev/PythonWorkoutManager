@@ -9,7 +9,7 @@ class Workout(object):
         self.__exercises = []
 
     def __str__(self):
-        string = "Workout name:" + str(self.__name) + " Date:" + str(self.__date) + " Exercises:"
+        string = "Workout name:" + str(self.__name) + " Date:" + str(self.__date) + "\nExercises:"
 
         for exercise in map(str, self.__exercises):
             string += exercise
@@ -39,7 +39,7 @@ class Workout(object):
         ex = self.__findExercise(name)
 
         if ex is None:
-            print "Exercise not found"
+            raise "Exercise not found"
         else:
             return self.getExerciseAt(ex)
 
