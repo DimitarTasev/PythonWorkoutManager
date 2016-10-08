@@ -7,11 +7,31 @@ class Exercise(object):
     __weightMultiplier = 1
     __superset = False
 
-    def __init__(self, name=None):
+    def __init__(self, name=None, sets = None, weights = None, reps = None):
+        
+        # handle name
         if name is None:
-            self.__name = "NotSet"
+            self.__name = None
         else:
             self.__name = name
+
+        # handle sets
+        if sets is None:
+            self.sets = None
+        else:
+            self.__sets = sets
+
+        # handle weights
+        if weights is None:
+            self.__weights = None
+        else:
+            self.__weights = weights
+
+        # handle reps
+        if reps is None:
+            self.__reps = None
+        else:
+            self.__reps = reps
 
         if "&" in self.__name:
             self.__superset = True
@@ -27,7 +47,7 @@ class Exercise(object):
         """
         return self.__name
 
-    def getSets(self):
+    def getSetCount(self):
         """
         @return the number of sets in the exercise
         """

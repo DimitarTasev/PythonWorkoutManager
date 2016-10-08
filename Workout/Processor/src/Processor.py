@@ -218,18 +218,3 @@ class Processor(object):
 
         w = setInfo.split(delimiterChar)
         return w[0], w[1]
-
-
-r = Processor("../../TestData/LegWorkout.txt")
-w = r.process()
-print "Workout name", w.getName()
-# print "First exercise", w.getExerciseAt(0)
-allE = w.getAllExercises()
-
-# for e in allE:
-sets = allE[2].getSets()
-
-for xx in range(sets):
-    print allE[xx].getName()
-    print allE[xx].getWeightsForSet(2)
-    print allE[xx].getRepsForSet(2)
