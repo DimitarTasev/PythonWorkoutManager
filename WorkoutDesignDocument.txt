@@ -1,5 +1,5 @@
 Design Document
-<> required, () optional
+<> required, () optional, ... can handle multiple
 
 Workout format:
     Name:
@@ -9,24 +9,25 @@ Workout format:
 
     Exercise format:
 
-    <set name>(& <super set name>...)(;<set count>/(hands)/(<*>weight multiplier)) -> Overhead Press;5/2/*1
+    <set name>(& <super set name>...)(<; or whitespace><set count>/(hands)/(<*>weight multiplier)) -> Overhead Press;5/2/*1
         DONE -> Overhead Press;5/2/*1
         DONE -> Overhead Press;5/2
         DONE -> Overhead Press;5
         DONE -> Overhead Press -> can now calculate the amount of sets
         DONE -> Exercise & Super set
+        TODO -> Overhead Press 5/2/*1 -> support whitespace for ease
 
-    <_ or kgs><* or x><reps>(, <kgs <* or x><reps>...)(& <kgs><* or x><reps>...) 
+    <_ or kgs><* or x><reps>(, <kgs <* or x><reps>...)(& <kgs><* or x><reps>...)(@ <rest time>)
         DONE -> _*10 -> 10 reps with body weight
         DONE -> _*10&_*10
         DONE -> 30*5 -> normal set
         DONE -> 30*5,15*5 -> dropset
         DONE -> 30*5&15*5 -> superset
         DONE -> 30*5,15*5&15*5,7.5*5 -> super drop set
+        -> 30*5@60 -> 1 minutes
 
     or 
 
         DONE <-> to copy same kgs/reps as above -> -
-        TODO support in workout definition in file:
-        -> 30*- -> format for same reps
-        -> -*30 -> format for same kgs
+        TODO_low_priority -> 30*- -> format for same reps
+        TODO_low_priority -> -*30 -> format for same kgs
