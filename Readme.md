@@ -2,7 +2,7 @@ TODO check if ; messes up dynalist
         
 TODO add support in workout definition in file:
     - rest tracking
-        - need to add in WorkoutDesignDocument <- still not finished tho
+        - need to add in WorkoutDesignDocument
             - if only 1 number (i.e. 30, 60, 90, 120) assume seconds
             - if format m:sec (i.e. 1:20, 2:00) process minutes:seconds
         - need to support 
@@ -11,7 +11,6 @@ TODO add support in workout definition in file:
 
     - outlined format in WorkoutDesignDocument:
         - #start_time in workout name #Style2
-
         - #duration in workout
             - calculate duration from end time - start time (not as easy as it sounds)
             - if end time < start time:
