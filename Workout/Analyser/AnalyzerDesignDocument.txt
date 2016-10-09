@@ -1,0 +1,31 @@
+Goal:
+    The goal of the Workout Analyzer is to provide the means to track progress over time
+    The progress includes:
+        Information per:
+            - Workout
+            - exercise
+        Information tracked/computed:
+            - weight
+            - reps
+            - weight increase over time
+            - repetition increase over time
+            - rest change between exercises over time (need to support rest tracking)
+            - weight/reps as related to:
+                - workout order (e.g. chest > legs > shoulders, in theory shoulders should be stronger than in chest > shoudlers)
+                - workout start time (need to add time support, can add in title)
+                    - morning workouts in theory should be lower weights/more reps (or plain cardio)
+                    - afternoon/evening workouts in theory should be higher weights
+                - workout duration (need to support duration, can add in title)
+                    - how does longer duration affect the workout
+                    - how does shorter duration affect the workout
+                - exercise rest (need to support rest)
+                - how does the workout duration affect consecutive workouts 
+                    - longer workouts could tire you more, leading to lower performance in consecutive workouts
+
+    Means to export to:
+        - CSV
+        - excel spreadsheet
+    Means to graph data:
+        - using matlab
+        - some other plotting library
+    
