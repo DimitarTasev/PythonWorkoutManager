@@ -34,8 +34,8 @@ Workout format:
         DONE -> 30*5&15*5 -> superset
         DONE -> 30*5,15*5&15*5,7.5*5 -> super drop set
     #Rest_markup:
-        TODO -> 30*5@60 -> 1 minutes
-        TODO -> 30*5 60 -> 1 minutes
+        TODO -> 30*5@60 -> 1 minute
+        TODO -> 30*5 60 -> 1 minute
         TODO -> 30*5&40*12 90 -> 1min 30sec
         TODO -> 30*5&40*12 1:30 -> 1min 30sec
 
