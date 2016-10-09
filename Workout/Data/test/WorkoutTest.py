@@ -1,9 +1,9 @@
-from unittest import TestCase
+import unittest
 from Workout.Data.src.Exercise.Exercise import Exercise
 from Workout.Data.src.Workout.Workout import Workout
 
 
-class WorkoutTest(TestCase):
+class WorkoutTest(unittest.TestCase):
     workout = None
     ex1 = Exercise("Bench Press", 4,
                    [50, 60, 70, 80], [12, 10, 8, 6])
@@ -43,3 +43,7 @@ class WorkoutTest(TestCase):
         self.workout.removeExerciseAt(0)
 
         self.assertEqual(self.workout.count(), 1)
+
+# Code so that tests can be run as individual files
+if __name__ == '__main__':
+    unittest.main()

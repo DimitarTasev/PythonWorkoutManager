@@ -21,9 +21,10 @@ class Loader(object):
         """
         try:
             return self.__readfile(self.__filename)
-        except IOError, e:
+        except IOError, e: # TODO invalid python 3 syntax?
             raise IOError(e)
 
+    @staticmethod
     def readfile(self, filename):
         """
         Statically read a file and return it's contents

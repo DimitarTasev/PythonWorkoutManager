@@ -7,26 +7,15 @@ class Processor(object):
     """
     Process the loaded file string into a Workout
     """
-    __fileReader = None
     __fileContents = None
     __lastWorkout = None
 
-    def __init__(self, filename=None):
-        if filename is None:
-            raise Exception("Must provide filename")
+    def __init__(self, filecontents=None):
+        if filecontents is not None:
+            self.__fileContents = filecontents
 
-        self.__fileReader = Loader(filename)
-
-    def readFile(self, force=False):
-        """
-        READS the file into the program, if NO file has been loaded yet
-        :return: A string containing all of the data from the file
-        """
-        if self.__fileContents is None or force is True:  # load the file if it hasnt been loaded yet
-            try:
-                self.__fileContents = self.__fileReader.read()
-            except IOError, e:
-                raise IOError(e)
+    def setWorkoutText(self, workoutText):
+        self.__fileContents = workoutText
 
     def clearMemory(self):
         """
@@ -40,10 +29,9 @@ class Processor(object):
         """
         print "Starting processing"
 
-        self.readFile()
-
         if len(self.__fileContents) < 1:
-            raise Exception("File is empty")
+            raise Exception("No workout provided in file. Please set one in constructor or using \
+            setWorkoutText()")
 
         self.__fileContents = self.__fileContents.splitlines()
 
@@ -115,6 +103,8 @@ class Processor(object):
     def __extractNameSetsHandMultiplier(self, title, exercises):
         nameAndSets = title.split(";")
         name = nameAndSets[0]
+        hand = '2'
+        weightMultiplier = '*1'
 
         # if set info is available -> the ;5/1/1 then use that, otherwise count manually
         sets = nameAndSets[1] if len(nameAndSets) > 1 else self.__countAndCreateSetsString(exercises)
@@ -123,13 +113,11 @@ class Processor(object):
         sets = setsAndHand[0]
 
         # TODO could potentially merge the functionality of this and __countAndCreateSetsString()
-        if len(setsAndHand) < 2:  # use default for hands
-            setsAndHand.append("2")
-        hand = setsAndHand[1]
+        if len(setsAndHand) > 1:  # use the provided for hands
+            hand = setsAndHand[1]
 
-        if len(setsAndHand) < 3:  # use default multiplier for weight
-            setsAndHand.append("*1")
-        weightMultiplier = setsAndHand[2]
+        if len(setsAndHand) > 2:  # use the provided multiplier for weight
+            weightMultiplier = setsAndHand[2]
 
         return name, sets, hand, weightMultiplier
 
@@ -161,21 +149,40 @@ class Processor(object):
 
         weights = []
         reps = []
-        for sets in exercises:
+        for sets in exercises: # supersets represented as [[set1], [set2]]
             weightsForSet = []
             repsForSet = []
-            for set in sets:
-                w, rep = self.__processSet(set)
-                weightsForSet.append(w)
-                repsForSet.append(rep)
 
-            weights.append(weightsForSet)
-            reps.append(repsForSet)
+            # if repeated, just append last result and that's it
+            if self.__isSetRepeated(sets):
+                w, rep = self.__retrieveCache()
+                weights.append(w)
+                reps.append(rep)
+            else: # else process the sets properly
+                for currentSet in sets: # processes a single part of a set, i.e. set1 or set2
+                    w, rep = self.__processSet(currentSet)
+                    weightsForSet.append(w)
+                    repsForSet.append(rep)
+
+                # fast cache for next set
+                self.__cache(weightsForSet, repsForSet)
+                # append processed weights and set
+                weights.append(weightsForSet)
+                reps.append(repsForSet)
 
         return weights, reps
 
+    def __isSetRepeated(self, set):
+        return True if set[0] == '-' else False
+
     # Method related global variables, used for caching the previous entries
     __lastWeights, __lastReps = [], []
+    def __cache(self, weights, reps):
+        self.__lastWeights = weights
+        self.__lastReps = reps
+
+    def __retrieveCache(self):
+        return self.__lastWeights, self.__lastReps
 
     def __processSet(self, set):
         """
@@ -184,14 +191,12 @@ class Processor(object):
         """
         weights, reps = [], []
 
-        # if the set is -, it means repeat, e.g. use the cached variables
-        if "-" in set:
-            return self.__lastWeights, self.__lastReps
-
         if "," in set:
             # handle dropset/s
             dropsets = set.split(",")
 
+            # dropset is simply split from [dropset1,dropset2] to
+            # [[dropset1],[dropset2]] so it can be processed with the same method
             for drop in dropsets:
                 w, rep = self.__processWeightsAndReps(drop)
                 weights.append(w)
@@ -201,10 +206,6 @@ class Processor(object):
             w, rep = self.__processWeightsAndReps(set)
             weights.append(w)
             reps.append(rep)
-
-        # store copy of the processed information, if next line is -
-        self.__lastWeights = weights
-        self.__lastReps = reps
 
         return weights, reps
 

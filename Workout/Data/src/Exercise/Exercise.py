@@ -10,27 +10,19 @@ class Exercise(object):
     def __init__(self, name=None, sets = None, weights = None, reps = None):
         
         # handle name
-        if name is None:
-            self.__name = None
-        else:
+        if name is not None:
             self.__name = name
 
         # handle sets
-        if sets is None:
-            self.sets = None
-        else:
+        if sets is not None:
             self.__sets = sets
 
         # handle weights
-        if weights is None:
-            self.__weights = None
-        else:
+        if weights is not None:
             self.__weights = weights
 
         # handle reps
-        if reps is None:
-            self.__reps = None
-        else:
+        if reps is not None:
             self.__reps = reps
 
         if "&" in self.__name:
