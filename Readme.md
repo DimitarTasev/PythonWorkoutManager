@@ -7,23 +7,10 @@ TODO add support in workout definition in file:
             - if format m:sec (i.e. 1:20, 2:00) process minutes:seconds
         - need to support 
             - rest after set
-            - rest after exercise
+            - rest after exercise #Rest_markup
 
     - outlined format in WorkoutDesignDocument:
-        - #start_time in workout
-            - use dynalist style
-                - need to change current format handling
-                - change title style 
-                    - separate everything with ; <- really annoying to do on keep, and using whitespace is better
-                    - OR just look for !( and ) and cut it off, then process separately
-                        - python split on ')'?
-                    - how do we separate workout title and time?
-                        - workout is always @Name_here
-                            - we can separate on whitespace?
-                                - split(' ')
-                    - OR we could just split the whole thing on whitespace and pray for 3 members [date + start time, workout name, end time]
-                        - if len > 3 then process end time
-                            - handle using #duration
+        - #start_time in workout name #Style2
 
         - #duration in workout
             - calculate duration from end time - start time (not as easy as it sounds)
