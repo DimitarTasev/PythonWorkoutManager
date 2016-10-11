@@ -26,19 +26,14 @@ Workout format:
         DONE -> Exercise & Super set
         TODO -> Overhead Press 5/2/*1 -> support whitespace for ease
 
-    <_ or kgs><* or x><reps>(, <kgs <* or x><reps>...)(& <kgs><* or x><reps>...)(<@ or whitespace> <rest time>)
+    <_ or kgs><* or x><reps>(, <kgs <* or x><reps>...)(& <kgs><* or x><reps>...)(**# of sets it was repeated)
         DONE -> _*10 -> 10 reps with body weight
         DONE -> _*10&_*10
         DONE -> 30*5 -> normal set
         DONE -> 30*5,15*5 -> dropset
         DONE -> 30*5&15*5 -> superset
         DONE -> 30*5,15*5&15*5,7.5*5 -> super drop set
-    #Rest_markup:
-        TODO -> 30*5@60 -> 1 minute
-        TODO -> 30*5 60 -> 1 minute
-        TODO -> 30*5&40*12 90 -> 1min 30sec
-        TODO -> 30*5&40*12 1:30 -> 1min 30sec
-
+        TODO -> 30*5&15*5 **4 -> same repeated for a total of 4 sets (or for the next n-1 sets)
     or 
 
         DONE <-> to copy same kgs/reps as above -> -

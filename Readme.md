@@ -1,15 +1,16 @@
 TODO check if ; messes up dynalist
-        
-TODO add support in workout definition in file:
+
+TODO features:
+    - new repeated workouts format
     - rest tracking
         - need to add in WorkoutDesignDocument
             - if only 1 number (i.e. 30, 60, 90, 120) assume seconds
             - if format m:sec (i.e. 1:20, 2:00) process minutes:seconds
         - need to support 
             - rest after set
-            - rest after exercise #Rest_markup
 
-    - outlined format in WorkoutDesignDocument:
+    - duration for workout
+        - outlined format in WorkoutDesignDocument:
         - #start_time in workout name #Style2
         - #duration in workout
             - calculate duration from end time - start time (not as easy as it sounds)
