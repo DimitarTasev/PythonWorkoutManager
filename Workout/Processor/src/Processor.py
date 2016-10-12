@@ -7,21 +7,21 @@ class Processor(object):
     """
     Process the loaded file string into a Workout
     """
-    __fileContents = None
-    __lastWorkout = None
+    m_fileContents = None
+    m_lastWorkout = None
 
     def __init__(self, filecontents=None):
         if filecontents is not None:
-            self.__fileContents = filecontents
+            self.m_fileContents = filecontents
 
     def setWorkoutFileContents(self, workoutFileContents):
-        self.__fileContents = workoutFileContents
+        self.m_fileContents = workoutFileContents
 
     def clearMemory(self):
         """
         Removes the information from the contents string
         """
-        self.__fileContents = ""
+        self.m_fileContents = ""
 
     def process(self):
         """
@@ -29,24 +29,27 @@ class Processor(object):
         """
         print "Starting processing"
 
-        if len(self.__fileContents) < 1:
+        if len(self.m_fileContents) < 1:
             raise Exception("No workout provided in file. Please set one in constructor or using \
             setWorkoutText()")
 
-        self.__fileContents = self.__fileContents.splitlines()
+        self.m_fileContents = self.m_fileContents.splitlines()
 
-        self.__lastWorkout = self.__createWorkout(self.__fileContents)
+        self.m_lastWorkout = self.__createWorkout(self.m_fileContents)
 
-        return self.__lastWorkout
+        return self.m_lastWorkout
 
     def __createWorkout(self, fileContents):
         titleAndDate = fileContents[0]
+        titleProcessor = WorkoutTitleProcessor(titleAndDate)
+        exerciseProcessor = WorkoutExerciseProcessor(fileContents[1:])
 
-        workout = self.__createWorkoutAndProcessTitleAndDate(titleAndDate)
+        workout = Workout(titleProcessor.getTitle())
+        workout.setDate(titleProcessor.getDate())
 
-        workoutExercises = self.__processExercises(fileContents[1:])
+        # todo will need to separate workouts at some point #4
+        workout.addAllExercises(exerciseProcessor.getAllExercises())
 
-        workout.addAllExercises(workoutExercises)
         return workout
 
     def __createWorkoutAndProcessTitleAndDate(self, title):
