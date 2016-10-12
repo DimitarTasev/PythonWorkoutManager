@@ -14,8 +14,8 @@ class Processor(object):
         if filecontents is not None:
             self.__fileContents = filecontents
 
-    def setWorkoutText(self, workoutText):
-        self.__fileContents = workoutText
+    def setWorkoutFileContents(self, workoutFileContents):
+        self.__fileContents = workoutFileContents
 
     def clearMemory(self):
         """
