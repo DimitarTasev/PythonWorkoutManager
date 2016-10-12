@@ -1,6 +1,7 @@
 # TODO this class will have the exercise processing bits from the processor
 from Workout.Data.src.Exercise.Exercise import Exercise
 
+
 class WorkoutExerciseProcessor(object):
     m_exercises = None
     m_exercisesContainer = None
@@ -41,7 +42,11 @@ class WorkoutExerciseProcessor(object):
         return exerciseContainer
 
     def __extractNameSetsHandMultiplier(self, title, exercises):
-        nameAndSets = title.split(";")
+        if ";" in title:  # title contains information about number of sets
+            nameAndSets = title.split(";")
+        else:
+            nameAndSets = [title]
+
         name = nameAndSets[0]
         hand = '2'
         weightMultiplier = '*1'

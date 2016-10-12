@@ -1,20 +1,23 @@
 TODO refactoring:
     split processor into #9
         workout exercise processor
-        done: workout title procesor
+        done: workout title procesor & unit test
     
 TODO data handling:
     add date class #10
         write implementation document
         will handle all date and time stuff for workout
+            start time
+            end time
+            duration
+                add duration class
     
-    add duration class
         
 
 TODO features:
     new repeated workouts format #11
 
-    duration for workout #7
+    duration for workout #7 #10
         outlined format in WorkoutDesignDocument
         outlined implementation in WorkoutDurationImplementation 
 
