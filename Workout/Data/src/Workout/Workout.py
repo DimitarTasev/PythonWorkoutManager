@@ -8,7 +8,7 @@ class Workout(object):
     m_duration = None
 
     def __init__(self, name = None):
-        if name is not None
+        if name is not None:
             self.m_name = name
         self.m_exercises = []
 

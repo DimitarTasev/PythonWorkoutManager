@@ -47,7 +47,7 @@ class WorkoutTitleProcessor(object):
         # split on whitespace, get 3 members, year, start time, end time/duration  
         titleAndDate = self.__splitDate(titleAndDate)
 
-        self.m_title = titleAndDate[3][1:] # this removes the @ sign
+        self.m_title = titleAndDate[3][1:]  # this removes the @ sign
         self.m_date = titleAndDate[0]
         self.m_startTime = titleAndDate[1]
         self.m_endTime = titleAndDate[4]

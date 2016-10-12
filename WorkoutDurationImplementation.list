@@ -2,7 +2,7 @@ Need to figure out which style we're using
     if dynalist
     or keep
 
-processing dynalist
+Done: processing dynalist
     crop out the data from between !(...) 
         can check if it has time start or not depending on length
             maybe we should enforce start time and duration
@@ -26,7 +26,7 @@ processing dynalist
 
     dynalist can be used to enforce a 24h clock, but we have the conversion algorithm too
 
-processing keep
+Done: processing keep
     more straightforward as it's supposed to be easily writable with a phone
     split the string by whitespace 
         we should have 3 array members 
@@ -35,10 +35,10 @@ processing keep
             end time/duration   
                 same problems with endtime/duration as with dynalist
 
-- #duration in workout
-            - calculate duration from end time - start time (not as easy as it sounds)
-            - if end time < start time:
-                - duration is provided and we can use it
-            - else:
-                - duration is not provided and we must calculate it using end time - start time
-            - 12h format? for the future, but if we encounter 12h format just convert to 24h
+#duration in workout
+            calculate duration from end time - start time (not as easy as it sounds)
+            if end time < start time:
+              - duration is provided and we can use it
+            else:
+              - duration is not provided and we must calculate it using end time - start time
+            12h format? for the future, but if we encounter 12h format just convert to 24h

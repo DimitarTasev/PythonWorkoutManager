@@ -1,7 +1,7 @@
 TODO refactoring:
     split processor into #9
         workout exercise processor
-        workout title procesor
+        done: workout title procesor
     
 TODO data handling:
     add date class #10
@@ -10,7 +10,7 @@ TODO data handling:
     
     add duration class
         
-        
+
 TODO features:
     new repeated workouts format #11
 
