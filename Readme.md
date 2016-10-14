@@ -4,6 +4,8 @@ TODO refactoring:
         done: workout title procesor & unit test
     
 TODO data handling:
+    maybe: split exercise data into
+        set class that handles the weights and reps
     add date class #10
         write implementation document
         will handle all date and time stuff for workout

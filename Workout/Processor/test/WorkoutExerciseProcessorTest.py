@@ -18,6 +18,9 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
     repeatedSuperSetWithTwoStars = ["Test Exercise", "50*12&25*12 **4"]
     repeatedSuperDropSetWithTwoStars = ["Test Exercise", "50*12,30*12&25*12,12.5*12 **4"]
 
+    # todo test for this
+    repeatedSuperDropSetWithXSeparator = ["Test Exercise", "50x12,30x12&25x12,12.5x12", "-", "-", "-"]
+
     def test_normalSet(self):
         wep = WorkoutExerciseProcessor(self.normalSet)
         self.doTestNormal(wep)
@@ -113,12 +116,10 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
     def test_repeatedNormal(self):
         wep = WorkoutExerciseProcessor(self.repeatedNormal)
         self.doTestNormal(wep)
-        
 
     def test_repeatedDropSet(self):
         wep = WorkoutExerciseProcessor(self.repeatedDropSet)
         self.doTestDropSet(wep)
-        
 
     def test_repeatedSuperSet(self):
         wep = WorkoutExerciseProcessor(self.repeatedSuperSet)
@@ -126,7 +127,11 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
 
     def test_repeatedSuperDropSet(self):
         wep = WorkoutExerciseProcessor(self.repeatedSuperDropSet)
-        self.doTestSuperDropSet(wep)        
+        self.doTestSuperDropSet(wep)
+
+    def test_repeatedSuperDropSetWithTwoStars(self):
+        wep = WorkoutExerciseProcessor(self.repeatedSuperDropSetWithTwoStars)
+        self.doTestSuperDropSet(wep)
 
     def test_repeatedNormalWithTwoStars(self):
         wep = WorkoutExerciseProcessor(self.repeatedNormalWithTwoStars)
@@ -139,10 +144,6 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
     def test_repeatedSuperSetWithTwoStars(self):
         wep = WorkoutExerciseProcessor(self.repeatedSuperSetWithTwoStars)
         self.doTestSuperSet(wep)
-
-    def test_repeatedSuperDropSetWithTwoStars(self):
-        wep = WorkoutExerciseProcessor(self.repeatedSuperDropSetWithTwoStars)
-        self.doTestSuperDropSet(wep)
 
 
 # Code so that tests can be run as individual files

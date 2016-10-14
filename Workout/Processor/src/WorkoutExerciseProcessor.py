@@ -88,6 +88,7 @@ class WorkoutExerciseProcessor(object):
         @param exercises::List of string to be processed and split
         @return The weights and reps from the string passed in the parameter
         """
+
         # split for supersets, does nothing if not superset
         exercises = [x.split("&") for x in exercises]
 
@@ -97,8 +98,17 @@ class WorkoutExerciseProcessor(object):
             weightsForSet = []
             repsForSet = []
 
+            markedForRepeatWithStarStar = False
+            repeatTimes = 0
+            
+            # check if set is repeated with **n
+            if self.__isRepeatedWithStarStar(sets):
+                # do what?
+                markedForRepeatWithStarStar = True
+                repeatTimes = self.__extractRepeatNumber(sets)
+
             # if repeated, just append last result and that's it
-            if self.__isSetRepeated(sets):
+            if self.__isSetRepeatedWithDash(sets):
                 w, rep = self.__retrieveCache()
                 weights.append(w)
                 reps.append(rep)
@@ -108,6 +118,13 @@ class WorkoutExerciseProcessor(object):
                     weightsForSet.append(w)
                     repsForSet.append(rep)
 
+                if markedForRepeatWithStarStar:
+                    # do next thing repeatTimes times
+                    for x in range(repeatTimes - 1):
+                        w, rep = self.__retrieveCache()
+                        weights.append(w)
+                        reps.append(rep)
+                    
                 # fast cache for next set
                 self.__cache(weightsForSet, repsForSet)
                 # append processed weights and set
@@ -116,8 +133,39 @@ class WorkoutExerciseProcessor(object):
 
         return weights, reps
 
-    def __isSetRepeated(self, set):
-        return True if set[0] == '-' else False
+    def __isRepeatedWithStarStar(self, setString):
+
+        # TODO make this pretties cos it makes me feel sick on the inside
+        lastPos = len(setString) - 1
+        setString = setString[lastPos].split(" ")
+        hasStarStar = False
+        for s in setString:
+            hasStarStar = True
+            break
+        return hasStarStar
+        
+    def __extractRepeatNumber(self, setString):
+        """
+        This method processes sets with the format
+        "set **n"
+        "set,set **n"
+        "set&set **n"
+        "set,set&set,set **4"
+
+        :return: Number of times the set needs to be added to the weights/reps list, which is number of times repeated - 1
+        """
+        # possible cases here are 
+        #["34*34,34*34&34*34,34*34 **4"]
+
+        print "Before split", setString
+        setString = setString.split(" ")
+        for s in setString:
+            if "**" in s:
+                return int(s[-1:])
+
+
+    def __isSetRepeatedWithDash(self, setString):
+        return True if setString[0] == '-' else False
 
     # Method related global variables, used for caching the previous entries
     __lastWeights, __lastReps = [], []
