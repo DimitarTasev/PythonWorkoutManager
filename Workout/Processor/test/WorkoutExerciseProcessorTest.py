@@ -15,15 +15,11 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
     repeatedSuperDropSet = ["Test Exercise", "50*12,30*12&25*12,12.5*12", "-", "-", "-"]
     repeatedNormalWithTwoStars = ["Test Exercise", "50*12 **4"]
     repeatedDropSetWithTwoStars = ["Test Exercise", "50*12,30*12 **4"]
-    repeatedSuperSetWithTwoStars = ["Test Exercise", "50*12&25*12 **4"]
+    repeatedSuperSetWithTwoStars = ["Test Exercise", "50*12&30*12 **4"]
     repeatedSuperDropSetWithTwoStars = ["Test Exercise", "50*12,30*12&25*12,12.5*12 **4"]
 
     # todo test for this
     repeatedSuperDropSetWithXSeparator = ["Test Exercise", "50x12,30x12&25x12,12.5x12", "-", "-", "-"]
-
-    def test_normalSet(self):
-        wep = WorkoutExerciseProcessor(self.normalSet)
-        self.doTestNormal(wep)
 
     def doTestNormal(self, wep):
         expectedSets = 4
@@ -44,10 +40,6 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
         for r in reps:
             self.assertEqual(r, expectedReps)
 
-    def test_dropSet(self):
-        wep = WorkoutExerciseProcessor(self.dropSet)
-        self.doTestDropSet(wep)
-
     def doTestDropSet(self, wep):
         expectedSets = 4
         expectedWeights = [["50", "30"]]
@@ -66,10 +58,6 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
 
         for r in reps:
             self.assertEqual(r, expectedReps)
-
-    def test_superSet(self):
-        wep = WorkoutExerciseProcessor(self.superSet)
-        self.doTestSuperSet(wep)
 
     def doTestSuperSet(self, wep):
         expectedSets = 4
@@ -90,10 +78,6 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
         for r in reps:
             self.assertEqual(r, expectedReps)
 
-    def test_superDropSet(self):
-        wep = WorkoutExerciseProcessor(self.superDropSet)
-        self.doTestSuperDropSet(wep)
-
     def doTestSuperDropSet(self, wep):
         expectedSets = 4
         expectedWeights = [["50", "30"], ["25", "12.5"]]
@@ -113,6 +97,26 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
         for r in reps:
             self.assertEqual(r, expectedReps)
 
+
+
+    def test_normalSet(self):
+        wep = WorkoutExerciseProcessor(self.normalSet)
+        self.doTestNormal(wep)
+
+    def test_dropSet(self):
+        wep = WorkoutExerciseProcessor(self.dropSet)
+        self.doTestDropSet(wep)
+
+
+    def test_superSet(self):
+        wep = WorkoutExerciseProcessor(self.superSet)
+        self.doTestSuperSet(wep)
+
+
+    def test_superDropSet(self):
+        wep = WorkoutExerciseProcessor(self.superDropSet)
+        self.doTestSuperDropSet(wep)
+
     def test_repeatedNormal(self):
         wep = WorkoutExerciseProcessor(self.repeatedNormal)
         self.doTestNormal(wep)
@@ -129,10 +133,6 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
         wep = WorkoutExerciseProcessor(self.repeatedSuperDropSet)
         self.doTestSuperDropSet(wep)
 
-    def test_repeatedSuperDropSetWithTwoStars(self):
-        wep = WorkoutExerciseProcessor(self.repeatedSuperDropSetWithTwoStars)
-        self.doTestSuperDropSet(wep)
-
     def test_repeatedNormalWithTwoStars(self):
         wep = WorkoutExerciseProcessor(self.repeatedNormalWithTwoStars)
         self.doTestNormal(wep)
@@ -145,6 +145,9 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
         wep = WorkoutExerciseProcessor(self.repeatedSuperSetWithTwoStars)
         self.doTestSuperSet(wep)
 
+    def test_repeatedSuperDropSetWithTwoStars(self):
+        wep = WorkoutExerciseProcessor(self.repeatedSuperDropSetWithTwoStars)
+        self.doTestSuperDropSet(wep)
 
 # Code so that tests can be run as individual files
 if __name__ == '__main__':
