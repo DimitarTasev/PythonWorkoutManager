@@ -1,6 +1,6 @@
 import unittest
-from Workout.Data.src.Exercise.Exercise import Exercise
-from Workout.Data.src.Workout.Workout import Workout
+from Workout.Data.src.Exercise import Exercise
+from Workout.Data.src.Workout import Workout
 
 
 class WorkoutTest(unittest.TestCase):
