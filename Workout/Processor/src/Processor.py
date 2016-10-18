@@ -1,4 +1,3 @@
-from Workout.Loader.src.Loader import Loader
 from Workout.Data.src.Workout.Workout import Workout
 from Workout.Data.src.Exercise.Exercise import Exercise
 from Workout.Processor.src.WorkoutExerciseProcessor import WorkoutExerciseProcessor

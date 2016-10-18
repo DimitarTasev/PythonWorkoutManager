@@ -98,7 +98,6 @@ class WorkoutExerciseProcessorTest(unittest.TestCase):
             self.assertEqual(r, expectedReps)
 
 
-
     def test_normalSet(self):
         wep = WorkoutExerciseProcessor(self.normalSet)
         self.doTestNormal(wep)

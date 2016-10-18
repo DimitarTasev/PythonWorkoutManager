@@ -1,3 +1,4 @@
 from Workout.Loader.src.Loader import Loader
 
-e = Loader("we")
+e = Loader("./TestData/LegWorkout.txt")
+print e.read()
